@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+<h1>Edit User</h1>
+<form action="/edit" method="post" accept-charset="utf-8" th:object="${user}">
+
+    <input type="hidden" th:value="${user.id}" name="id" />
+    <label for="firstName">Имя:</label>
+    <input type="text" id="firstName" th:value="${user.firstName}" name="firstName" required />
+    <div style="color: aqua" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">lastName Error</div>
+    <br />
+    <label for="lastName">Фамилия:</label>
+    <input type="text" id="lastName" th:value="${user.lastName}" name="lastName" required />
+    <div style="color: aqua" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">lastName Error</div>
+    <br />
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:value="${user.email}" name="email" required />
+    <div style="color: aqua" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</div>
+    <br />
+    <button type="submit">Обновить</button>
+</form>
+<a href="/">К списку пользователей</a>
+</body>
+</html>
