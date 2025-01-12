@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
+
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,7 +11,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.List;
-
 
 @Entity
 @Table(name = "users")
@@ -34,13 +35,10 @@ public class User implements UserDetails {
     private String userName;
     @Column(name = "password")
     private String password;
-    @Column
+
     private boolean enabled;
-    @Column
     private boolean accountNonExpired;
-    @Column
     private boolean accountNonLocked;
-    @Column
     private boolean credentialsNonExpired;
 
     public User() {
@@ -116,12 +114,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "password";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "username";
+        return userName;
     }
 
     @Override
