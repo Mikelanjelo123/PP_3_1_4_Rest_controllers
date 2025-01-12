@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -16,11 +13,13 @@ import javax.validation.Valid;
 
 
 @Controller
-public class UsersController {
-    @Autowired
+@RequestMapping("/admin")
+public class AdminPanelController {
+
     private final UserService userService;
 
-    private UsersController(UserService userService) {
+    @Autowired
+    private AdminPanelController(UserService userService) {
         this.userService = userService;
     }
 
