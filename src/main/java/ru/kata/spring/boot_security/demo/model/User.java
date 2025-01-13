@@ -1,8 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
-
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -21,23 +20,31 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Pattern(regexp = "^[А-ЯA-Z][а-яa-z]+$", message = "неккоректный ввод Имени")
     @NotEmpty(message = "Имя не может быть пустым")
     @Column(name = "first_Name")
     private String firstName;
+
     @Pattern(regexp = "^[А-ЯA-Z][а-яa-z]+$", message = "неккоректный ввод Фамилии")
     @NotEmpty(message = "Фамилия не может быть пустым")
     @Column(name = "last_name")
     private String lastName;
+
     @NotEmpty(message = "Email не может быть пустым")
     @Email(message = "некорректный Email")
     @Column(name = "email")
     private String email;
+
     @Column(name = "userName")
     private String userName;
+
     @Column(name = "password")
     private String password;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "User-role", joinColumns = @JoinColumn(name = "User_id"), inverseJoinColumns = @JoinColumn(name ="Role_id"))
+    private Set<Role> roles;
     private boolean enabled;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
@@ -46,15 +53,16 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String email, String lastName, String firstName, String userName, String password) {
-        this.id = id;
-        this.email = email;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.userName = userName;
-        this.password = password;
+    public String getUserName() {
+        return userName;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+}
     public int getId() {
         return id;
     }
@@ -111,7 +119,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return getRoles();
     }
 
     @Override
@@ -126,21 +134,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

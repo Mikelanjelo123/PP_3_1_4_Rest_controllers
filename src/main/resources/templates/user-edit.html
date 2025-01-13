@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Edit User</h1>
-<form action="/edit" method="post" accept-charset="utf-8" th:object="${user}">
+<form action="/admin/edit" method="post" accept-charset="utf-8" th:object="${user}">
 
     <input type="hidden" th:value="${user.id}" name="id" />
     <label for="firstName">Имя:</label>
@@ -23,6 +23,6 @@
     <br />
     <button type="submit">Обновить</button>
 </form>
-<a href="/">К списку пользователей</a>
+<a href="/admin">К списку пользователей</a>
 </body>
 </html>

@@ -23,7 +23,7 @@ public class AdminPanelController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String listUsers(ModelMap model) {
         model.addAttribute("users", userService.findAll());
         return "user-list";
@@ -41,7 +41,7 @@ public class AdminPanelController {
             return "user-add";
         }
         userService.add(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/edit")
@@ -61,12 +61,12 @@ public class AdminPanelController {
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
         userService.update(existingUser);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/delete")
     public String deleteUser(@RequestParam("id") int id) {
         userService.delete(id);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }

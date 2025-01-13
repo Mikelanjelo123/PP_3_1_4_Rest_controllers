@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>добавить нового пользователя</h1>
-<form action="/add" method="post" accept-charset="UTF-8" th:object="${user}">
+<form action="/admin/add" method="post" accept-charset="UTF-8" th:object="${user}">
     <label for="firstName">Имя:</label>
     <input type="text" id="firstName" th:field="*{firstName}" required/>
     <div style="color: aqua" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">firstName Error</div>
@@ -24,6 +24,6 @@
 
     <button type="submit">Создать</button>
 </form>
-<a href="/">К списку пользователей</a>
+<a href="/admin">К списку пользователей</a>
 </body>
 </html>
