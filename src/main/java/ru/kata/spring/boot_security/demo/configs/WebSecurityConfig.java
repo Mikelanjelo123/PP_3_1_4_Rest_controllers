@@ -28,8 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
-                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
@@ -40,7 +40,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .permitAll()
                 .and()
-                .exceptionHandling();
+                .exceptionHandling()
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .expiredUrl("/login");
+
     }
 
     // аутентификация userDetailService

@@ -58,5 +58,6 @@ public class UserServiceImp implements UserService {
         if (user.isEmpty())
             throw new UsernameNotFoundException("User not found!");
         return new PersonDetails(user.get());
+
     }
 }

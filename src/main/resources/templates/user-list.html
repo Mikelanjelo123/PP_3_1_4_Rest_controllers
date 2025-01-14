@@ -20,8 +20,8 @@
         <td th:text="${user.lastName}"></td>
         <td th:text="${user.email}"></td>
         <td>
-            <a th:href="@{'/edit?id=' + ${user.id}}">Редактировать</a>
-            <a th:href="@{'/delete?id=' + ${user.id}}">Удалить</a>
+            <a th:href="@{'/admin/edit?id=' + ${user.id}}">Редактировать</a>
+            <a th:href="@{'/admin/delete?id=' + ${user.id}}">Удалить</a>
         </td>
     </tr>
 </table>

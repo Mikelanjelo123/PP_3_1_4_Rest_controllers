@@ -5,6 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -35,7 +36,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles", joinColumns = @JoinColumn(name = "User_id"),
             inverseJoinColumns = @JoinColumn(name = "Role_id")
@@ -45,6 +46,13 @@ public class User {
 
     public User() {}
 
+    public User(String firstName, String lastName, String email, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 
     public Set<Role> getRoles() {
         return roles;

@@ -22,13 +22,13 @@
     <div style="color: aqua" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</div>
     <br/>
 
-    <label for="password">Password</label>
+    <label for="password">Пароль:</label>
     <input type="password" id="password" th:field="*{password}" required/>
     <div style ="color: aqua" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</div>
     <br/>
 
-    <label for="role">role</label>
-    <input type="role" id="role" th:field="*{roles}" required/>
+    <label for="roles">Роль:</label>
+    <input type="roles" id="roles" th:field="*{roles}" required/>
     <div style ="color: aqua" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">role Error</div>
 
 
