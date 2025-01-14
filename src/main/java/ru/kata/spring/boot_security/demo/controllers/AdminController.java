@@ -60,6 +60,8 @@ public class AdminController {
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setRoles(user.getRoles());
         userService.update(existingUser);
         return "redirect:/admin";
     }
