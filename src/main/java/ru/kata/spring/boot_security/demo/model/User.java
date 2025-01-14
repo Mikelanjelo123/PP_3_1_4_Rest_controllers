@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Set;
 
@@ -29,23 +30,21 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "userName")
-    private String userName;
 
+    @NotEmpty(message = "Пароль не может быть пустым")
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "User-role", joinColumns = @JoinColumn(name = "User_id"), inverseJoinColumns = @JoinColumn(name = "Role_id"))
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles", joinColumns = @JoinColumn(name = "User_id"),
+            inverseJoinColumns = @JoinColumn(name = "Role_id")
+    )
     private Set<Role> roles;
 
 
-    public User() {
-    }
+    public User() {}
 
-    public String getUserName() {
-        return userName;
-    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -82,9 +81,11 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -96,7 +97,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';

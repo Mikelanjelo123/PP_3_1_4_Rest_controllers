@@ -6,10 +6,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserRepository;
+import ru.kata.spring.boot_security.demo.model.PersonDetails;
 import ru.kata.spring.boot_security.demo.model.User;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -48,5 +50,13 @@ public class UserServiceImp implements UserService {
     @Override
     public User findById(int id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByEmail(username);
+        if (user.isEmpty())
+            throw new UsernameNotFoundException("User not found!");
+        return new PersonDetails(user.get());
     }
 }
