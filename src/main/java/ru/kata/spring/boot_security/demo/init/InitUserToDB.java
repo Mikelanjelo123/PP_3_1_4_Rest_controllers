@@ -22,17 +22,21 @@ public class InitUserToDB {
 
     @PostConstruct
     public void init() {
-        if (roleService.findAll().size() == 0) {
-            // Создаём роли
-            Role adminRole = new Role("ROLE_ADMIN");
+        // Создаём роли
+        Role adminRole = new Role("ROLE_ADMIN");
+        Role userRole = new Role("ROLE_USER");
 
-            // Создаём множество ролей
-            Set<Role> roles = new HashSet<>();
-            roles.add(adminRole);
-            User user = new User("Admin", "Admin", "admin@exemple.ru", "$2a$12$SOG.qzmEIVP/QZnQmxvdTuR3H5xU16C9/0RYmqpjhQh7KU/OlZsaO", roles);
-            roleService.add(adminRole);
-            userService.add(user);
+        // Создаём сет ролей
+        Set<Role> rolesAdmin = new HashSet<>();
+        Set<Role> rolesUser = new HashSet<>();
+        rolesAdmin.add(adminRole);
+        rolesUser.add(userRole);
+        User admin = new User("Admin", "Admin", "admin@exemple.ru", "$2a$12$SOG.qzmEIVP/QZnQmxvdTuR3H5xU16C9/0RYmqpjhQh7KU/OlZsaO", rolesAdmin);
+        User user = new User("User", "User", "user@exemple.ru","$2a$12$SOG.qzmEIVP/QZnQmxvdTuR3H5xU16C9/0RYmqpjhQh7KU/OlZsaO", rolesUser);
+        roleService.add(adminRole);
+        roleService.add(userRole);
+        userService.add(admin);
+        userService.add(user);
 
-        }
     }
 }

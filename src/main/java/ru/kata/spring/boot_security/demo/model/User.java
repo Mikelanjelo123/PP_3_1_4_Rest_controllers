@@ -46,6 +46,7 @@ public class User {
 
     public User() {}
 
+
     public User(String firstName, String lastName, String email, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;

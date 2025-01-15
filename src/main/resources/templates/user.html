@@ -5,23 +5,22 @@
 </head>
 <body>
 <h1>User, welcome spring boot security page!</h1>
-
 <table>
     <tr>
         <th>ID</th>
-        <td th:text="${user.id}">1</td>
+        <td th:text="${userDetails.getUser().id}">1</td>
     </tr>
     <tr>
         <th>Имя</th>
-        <td th:text="${user.firstName}">Имя</td>
+        <td th:text="${userDetails.getUser().firstName}">Имя</td>
     </tr>
     <tr>
         <th>Фамилия</th>
-        <td th:text="${user.lastName}">Фамилия</td>
+        <td th:text="${userDetails.getUser().lastName}">Фамилия</td>
     </tr>
     <tr>
         <th>Email</th>
-        <td th:text="${user.email}">example@example.com</td>
+        <td th:text="${userDetails.getUser().email}">example@example.com</td>
     </tr>
 </table>
 <a href="/logout">Выйти</a>
