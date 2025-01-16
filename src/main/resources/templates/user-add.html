@@ -7,7 +7,7 @@
 <body>
 <h1>добавить нового пользователя</h1>
 <form action="/admin/add" method="post" accept-charset="UTF-8" th:object="${user}">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <label for="firstName">Имя:</label>
     <input type="text" id="firstName" th:field="*{firstName}" required/>
     <div style="color: aqua" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">firstName Error</div>
@@ -25,13 +25,13 @@
 
     <label for="password">Пароль:</label>
     <input type="password" id="password" th:field="*{password}" required/>
-    <div style ="color: aqua" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</div>
+    <div style="color: aqua" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</div>
     <br/>
 
-    <label for="roles">Роль:</label>
-    <input type="roles" id="roles" th:field="*{roles}" required/>
-    <div style ="color: aqua" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">role Error</div>
-
+    <div>
+        <input type="checkbox" th:field="*{roles}" value="ROLE_ADMIN" /> ADMIN<br/>
+        <input type="checkbox" th:field="*{roles}" value="ROLE_USER" /> USER<br/>
+    </div>
 
     <button type="submit">Создать</button>
 </form>

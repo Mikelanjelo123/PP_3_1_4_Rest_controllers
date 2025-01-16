@@ -26,10 +26,12 @@
     <input type="password" id="password" th:value="${user.password}" name="password" required />
     <div style="color: aqua" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</div>
     <br />
-    <label for="roles">roles:</label>
-    <input type="roles" id="roles" th:value="${user.roles}" name="roles" required />
-    <div style="color: aqua" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">roles Error</div>
-    <br />
+
+    <div>
+        <input type="checkbox" th:field="*{roles}" value="ROLE_ADMIN" /> ADMIN<br/>
+        <input type="checkbox" th:field="*{roles}" value="ROLE_USER" /> USER<br/>
+    </div>
+
 
     <button type="submit">Обновить</button>
 </form>
