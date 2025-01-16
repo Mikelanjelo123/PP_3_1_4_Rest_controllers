@@ -13,6 +13,8 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Controller
@@ -46,6 +48,12 @@ public class AdminController {
     public String addUser(@ModelAttribute("user") @Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "user-add";
+        }
+        if(user.getRoles().isEmpty()){
+            Set<Role> roles = new HashSet<>();
+            Role role = new Role("ROLE_USER");
+            roles.add(role);
+            user.setRoles(roles);
         }
         userService.add(user);
         user.getRoles().forEach(roles -> roleService.add(roles));
