@@ -14,7 +14,7 @@ public class Role implements GrantedAuthority {
     private int id;
 
     @Column(name = "role")
-    private String role;
+    private String name;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
@@ -27,13 +27,13 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public Role(int id, String role) {
+    public Role(int id, String name) {
         this.id = id;
-        this.role = role;
+        this.name = name;
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String name) {
+        this.name = name;
     }
 
     @Override
@@ -42,11 +42,11 @@ public class Role implements GrantedAuthority {
     }
 
     public String getRole() {
-        return role;
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -62,18 +62,18 @@ public class Role implements GrantedAuthority {
         if (o == null || getClass() != o.getClass()) return false;
 
         Role role1 = (Role) o;
-        return id == role1.id && Objects.equals(role, role1.role);
+        return id == role1.id && Objects.equals(name, role1.name);
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + Objects.hashCode(role);
+        result = 31 * result + Objects.hashCode(name);
         return result;
     }
 
     @Override
     public String toString() {
-        return role;
+        return name;
     }
 }
