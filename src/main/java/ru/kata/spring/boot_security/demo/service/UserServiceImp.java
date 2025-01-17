@@ -53,6 +53,14 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public Boolean existsByEmail(String email) {
+        if (userRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(email))) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(username);
         if (user.isEmpty())

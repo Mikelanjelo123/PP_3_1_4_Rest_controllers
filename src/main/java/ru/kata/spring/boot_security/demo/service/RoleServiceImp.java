@@ -30,8 +30,8 @@ public class RoleServiceImp implements RoleService {
         roleRepository.save(role);
     }
 
-/*    @Override
+    @Override
     public Role findByName(String name) {
-        return roleRepository.findAll()
-    }*/
+        return roleRepository.findAll().stream().filter(r -> r.getName().equals(name)).findFirst().orElse(null);
+    }
 }

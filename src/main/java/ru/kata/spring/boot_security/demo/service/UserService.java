@@ -13,4 +13,5 @@ public interface UserService extends UserDetailsService {
     List<User> findAll();
 
     User findById(int id);
+    Boolean existsByEmail(String email);
 }

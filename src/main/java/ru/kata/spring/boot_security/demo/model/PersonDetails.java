@@ -19,7 +19,7 @@ public class PersonDetails implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(user.getRoles().iterator().next().getRole()));
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRoles().iterator().next().getName()));
     }
 
     @Override

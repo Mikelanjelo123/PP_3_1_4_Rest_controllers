@@ -40,7 +40,7 @@ public class AdminController {
     @GetMapping("/add")
     public String addUserForm(ModelMap model) {
         model.addAttribute("user", new User());
-        model.addAttribute("role", new Role());
+        model.addAttribute("allRoles", roleService.findAll());
         return "user-add";
     }
 
@@ -49,15 +49,13 @@ public class AdminController {
         if (result.hasErrors()) {
             return "user-add";
         }
-        if(user.getRoles().isEmpty()){
-            Set<Role> roles = new HashSet<>();
-            Role role = new Role("ROLE_USER");
-            roles.add(role);
-            user.setRoles(roles);
-            return "redirect:/admin/";
+        // Проверка: если роли не выбраны, добавляется роль по умолчанию
+        if (user.getRoles().isEmpty()) {
+            Role defaultRole = roleService.findByName("ROLE_USER");
+            user.getRoles().add(defaultRole);
         }
+        passwordEncoder.encode(user.getPassword());
         userService.add(user);
-        user.getRoles().forEach(roles -> roleService.add(roles));
         return "redirect:/admin";
     }
 
@@ -65,7 +63,7 @@ public class AdminController {
     public String editUserForm(@RequestParam("id") int id, ModelMap model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
-        model.addAttribute("role", roleService.findAll());
+        model.addAttribute("allRoles", roleService.findAll());
         return "user-edit";
     }
 

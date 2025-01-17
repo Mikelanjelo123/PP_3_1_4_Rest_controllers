@@ -27,9 +27,9 @@
     <div style="color: aqua" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</div>
     <br />
 
-    <div>
-        <input type="checkbox" th:field="*{roles}" value="ROLE_ADMIN" /> ADMIN<br/>
-        <input type="checkbox" th:field="*{roles}" value="ROLE_USER" /> USER<br/>
+    <div th:each="role : ${allRoles}">
+        <input type="checkbox" th:field="*{roles}" th:value="${role.name}" th:id="${role.name}" />
+        <label th:for="${role.getName()}" th:text="${role.name}"></label><br/>
     </div>
 
 
