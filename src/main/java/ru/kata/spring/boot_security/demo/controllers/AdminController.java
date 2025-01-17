@@ -54,7 +54,7 @@ public class AdminController {
             Role defaultRole = roleService.findByName("ROLE_USER");
             user.getRoles().add(defaultRole);
         }
-        passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.add(user);
         return "redirect:/admin";
     }
