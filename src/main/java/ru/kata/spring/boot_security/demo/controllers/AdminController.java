@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Controller
@@ -47,6 +48,11 @@ public class AdminController {
         if (result.hasErrors()) {
             return "user-add";
         }
+        // проверка на имейл
+        Optional<User> userWithSameEmail = userService.findByEmail(user.getEmail());
+        if (userWithSameEmail.isPresent()) {
+            return "user-add";
+        }
         // Проверка: если роли не выбраны, добавляется роль по умолчанию
         if (user.getRoles().isEmpty()) {
             Role defaultRole = roleService.findByName("ROLE_USER");
@@ -70,6 +76,13 @@ public class AdminController {
         if (result.hasErrors()) {
             return "user-edit";
         }
+        // проверка на имейл
+        Optional<User> userWithSameEmail = userService.findByEmail(user.getEmail());
+        if (userWithSameEmail.isPresent() && userWithSameEmail.get().getId() != id) {
+            result.rejectValue("email", "error.user", "Этот email уже используется другим пользователем.");
+            return "user-edit";
+        }
+
         User existingUser = userService.findById(id);
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
