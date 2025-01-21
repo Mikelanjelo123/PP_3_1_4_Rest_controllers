@@ -79,17 +79,11 @@ public class AdminController {
         // проверка на имейл
         Optional<User> userWithSameEmail = userService.findByEmail(user.getEmail());
         if (userWithSameEmail.isPresent() && userWithSameEmail.get().getId() != id) {
+            // проверяем, что email не совпадает с текущим пользователем
             result.rejectValue("email", "error.user", "Этот email уже используется другим пользователем.");
             return "user-edit";
         }
-
-        User existingUser = userService.findById(id);
-        existingUser.setFirstName(user.getFirstName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        existingUser.setRoles(user.getRoles());
-        userService.update(existingUser);
+        userService.update(id, user);
         return "redirect:/admin";
     }
 
