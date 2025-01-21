@@ -2,12 +2,10 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -19,13 +17,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    private AdminController(PasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
-        this.passwordEncoder = passwordEncoder;
+    private AdminController( UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -54,11 +50,6 @@ public class AdminController {
             return "user-add";
         }
         // Проверка: если роли не выбраны, добавляется роль по умолчанию
-        if (user.getRoles().isEmpty()) {
-            Role defaultRole = roleService.findByName("ROLE_USER");
-            user.getRoles().add(defaultRole);
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.add(user);
         return "redirect:/admin";
     }
