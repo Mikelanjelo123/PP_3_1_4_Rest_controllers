@@ -58,6 +58,14 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -76,13 +84,5 @@ public class Role implements GrantedAuthority {
     @Override
     public String toString() {
         return name;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 }
