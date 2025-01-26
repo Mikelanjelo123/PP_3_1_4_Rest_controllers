@@ -38,8 +38,8 @@ public class InitUserToDB {
             Set<Role> rolesUser = new HashSet<>();
             rolesAdmin.add(adminRole);
             rolesUser.add(userRole);
-            User admin = new User("Admin", "Admin", "admin@exemple.ru", passwordEncoder.encode("admin"), rolesAdmin);
-            User user = new User("User", "User", "user@exemple.ru", passwordEncoder.encode("user"), rolesUser);
+            User admin = new User("Admin", "Admin", "admin@exemple.ru", "admin", rolesAdmin);
+            User user = new User("User", "User", "user@exemple.ru", "user", rolesUser);
             roleService.add(adminRole);
             roleService.add(userRole);
             userService.add(admin);
