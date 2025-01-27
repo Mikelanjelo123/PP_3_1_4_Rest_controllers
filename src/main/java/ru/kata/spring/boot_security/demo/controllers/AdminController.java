@@ -2,10 +2,14 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.PersonDetails;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -19,16 +23,21 @@ import java.util.Optional;
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
+    private final DefaultAuthenticationEventPublisher authenticationEventPublisher;
 
     @Autowired
-    private AdminController( UserService userService, RoleService roleService) {
+    private AdminController(UserService userService, RoleService roleService, DefaultAuthenticationEventPublisher authenticationEventPublisher) {
         this.userService = userService;
         this.roleService = roleService;
+        this.authenticationEventPublisher = authenticationEventPublisher;
     }
 
     @GetMapping
     public String listUsers(ModelMap model) {
         model.addAttribute("users", userService.findAll());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails =(PersonDetails) authentication.getPrincipal();
+        model.addAttribute("userDetails", personDetails);
         return "user-list";
     }
 
@@ -36,6 +45,9 @@ public class AdminController {
     public String addUserForm(ModelMap model) {
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleService.findAll());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails =(PersonDetails) authentication.getPrincipal();
+        model.addAttribute("userDetails", personDetails);
         return "user-add";
     }
 
