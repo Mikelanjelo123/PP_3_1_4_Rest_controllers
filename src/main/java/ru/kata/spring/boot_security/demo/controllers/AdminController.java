@@ -35,6 +35,7 @@ public class AdminController {
     @GetMapping
     public String listUsers(ModelMap model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails =(PersonDetails) authentication.getPrincipal();
         model.addAttribute("userDetails", personDetails);
