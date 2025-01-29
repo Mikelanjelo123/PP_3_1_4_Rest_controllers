@@ -31,7 +31,20 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Add New User</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <span class="me-3" th:text="${userDetails.getUser().email}"> </span>
+                    <a href="/logout" class="btn btn-outline-secondary">Logout</a>
+                </div>
             </div>
+
+            <ul class="nav nav-tabs mb-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/">Users Table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/add">New User</a>
+                </li>
+            </ul>
 
             <form action="/admin/add" method="post" accept-charset="UTF-8" th:object="${user}">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -65,10 +78,14 @@
                 </div>
 
 
-                <div th:each="role : ${allRoles}">
-                    <input type="checkbox" th:field="*{roles}" th:value="${role.id}"/>
-                    <label th:for="${role.name}" th:text="${role.name}"></label><br/>
-                </div>
+                <label class="form-label mt-3 mb-0" for="roles"><strong>Роли:</strong></label>
+                <select class="form-select" id="roles" name="roles" multiple th:size="${#sets.size(allRoles)}" required>
+                    <option th:each="role: ${allRoles}"
+                            th:value="${role.id}"
+                            th:text="${#strings.substringAfter(role.name, 'ROLE_')}"
+                            th:selected="${user.roles.contains(role)}">
+                    </option>
+                </select>
 
                 <button type="submit" class="btn btn-primary">Add New User</button>
             </form>
