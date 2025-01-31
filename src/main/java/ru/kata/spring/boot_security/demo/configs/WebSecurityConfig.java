@@ -23,6 +23,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -42,7 +43,6 @@ public class WebSecurityConfig {
                         .maximumSessions(1)
                         .expiredUrl("/login")
                 );
-
         return http.build();
     }
 
