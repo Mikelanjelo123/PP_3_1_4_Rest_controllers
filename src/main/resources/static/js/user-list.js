@@ -14,15 +14,13 @@ async function fetchUsers() {
         const data = await response.json();
 
         if (response.ok) {
-            console.log('Users:', data.users);
-            console.log('Roles:', data.roles);
             users = data.users; // Обновляем список пользователей
-            updateUserTable(data.users); // Обновляем таблицу пользователей
+            updateUserTable(users); // Обновляем таблицу пользователей
         } else {
-            console.error('Error fetching users:', data);
+            showError('Error fetching users: ' + (data.message || 'Unknown error'));
         }
     } catch (error) {
-        console.error('Error:', error);
+        showError('Error: ' + error.message);
     }
 }
 
@@ -39,13 +37,13 @@ async function addUser(user) {
         const data = await response.json();
 
         if (response.ok) {
-            console.log('User added:', data);
-            fetchUsers(); // Обновляем список пользователей
+            users.push(data.user); // Локально добавляем пользователя
+            updateUserTable(users); // Обновляем таблицу
         } else {
-            console.error('Error adding user:', data);
+            showError('Error adding user: ' + (data.message || 'Unknown error'));
         }
     } catch (error) {
-        console.error('Error:', error);
+        showError('Error: ' + error.message);
     }
 }
 
@@ -62,15 +60,21 @@ async function editUser(id, user) {
         const data = await response.json();
 
         if (response.ok) {
-            console.log('User updated:', data);
-            fetchUsers(); // Обновляем список пользователей
+            // Обновляем пользователя локально
+            const index = users.findIndex(u => u.id === id);
+            if (index !== -1) {
+                // Если сервер возвращает весь объект пользователя
+                users[index] = data;  // Обновляем напрямую, так как сервер возвращает объект
+                updateUserTable(users); // Перерисовываем таблицу
+            }
         } else {
-            console.error('Error updating user:', data);
+            showError('Error updating user: ' + (data.message || 'Unknown error'));
         }
     } catch (error) {
-        console.error('Error:', error);
+        showError('Error: ' + error.message);
     }
 }
+
 
 // Функция для удаления пользователя
 async function deleteUser(id) {
@@ -84,13 +88,13 @@ async function deleteUser(id) {
         const data = await response.json();
 
         if (response.ok) {
-            console.log('User deleted:', data);
-            fetchUsers(); // Обновляем список пользователей
+            users = users.filter(user => user.id !== id); // Локально удаляем пользователя
+            updateUserTable(users); // Обновляем таблицу
         } else {
-            console.error('Error deleting user:', data);
+            showError('Error deleting user: ' + (data.message || 'Unknown error'));
         }
     } catch (error) {
-        console.error('Error:', error);
+        showError('Error: ' + error.message);
     }
 }
 
@@ -101,7 +105,7 @@ function openEditModal(userId) {
         document.getElementById('editFirstName').value = user.firstName;
         document.getElementById('editLastName').value = user.lastName;
         document.getElementById('editEmail').value = user.email;
-        document.getElementById('editRole').value = user.roles[0].name; // Убедитесь, что у пользователя только один роль
+        document.getElementById('editRole').value = user.roles[0].name; // Предположим, что у пользователя только одна роль
         const editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
     }
@@ -111,17 +115,14 @@ function openEditModal(userId) {
 function openDeleteModal(userId) {
     const user = users.find(u => u.id === userId);
     if (user) {
-        // Устанавливаем значения в поля формы для удаления
-        document.getElementById('deleteFirstName').value = user.firstName; // Используем .value для input
-        document.getElementById('deleteLastName').value = user.lastName;   // и для input
-        document.getElementById('deleteEmail').value = user.email;         // и для input
-        document.getElementById('deleteRole').value = user.roles[0].name;   // и для select
+        document.getElementById('deleteFirstName').value = user.firstName;
+        document.getElementById('deleteLastName').value = user.lastName;
+        document.getElementById('deleteEmail').value = user.email;
+        document.getElementById('deleteRole').value = user.roles[0].name;
 
-        // Открываем модальное окно
         const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
         deleteModal.show();
 
-        // Устанавливаем обработчик для кнопки подтверждения удаления
         const deleteButton = document.getElementById('confirmDeleteButton');
         deleteButton.onclick = () => {
             deleteUser(userId); // Удаляем пользователя
@@ -130,7 +131,6 @@ function openDeleteModal(userId) {
         };
     }
 }
-
 
 // Функция для обновления таблицы пользователей
 function updateUserTable(users) {
@@ -158,6 +158,13 @@ function updateUserTable(users) {
         `;
         tbody.appendChild(row);
     });
+}
+
+// Функция для отображения ошибок
+function showError(message) {
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.innerText = message;
+    errorContainer.style.display = 'block';
 }
 
 // Инициализация при загрузке страницы
