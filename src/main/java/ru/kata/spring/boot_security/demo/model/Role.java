@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "role")
     private String name;
-
+    @JsonBackReference
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 

@@ -14,7 +14,7 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    @GetMapping("/user")
+    @GetMapping("api/user")
     public ResponseEntity<Map<String, Object>> userPage() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();

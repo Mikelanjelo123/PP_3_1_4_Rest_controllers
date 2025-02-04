@@ -39,19 +39,8 @@ public class AdminController {
         Map<String, Object> response = new HashMap<>();
         response.put("users", userService.findAll());
         response.put("roles", roleService.findAll());
-        response.put("userDetails", personDetails);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/add")
-    public ResponseEntity<Map<String, Object>> addUserForm() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-
-        Map<String, Object> response = new HashMap<>();
+        response.put("personDetails", personDetails);
         response.put("user", new User());
-        response.put("allRoles", roleService.findAll());
-        response.put("userDetails", personDetails);
         return ResponseEntity.ok(response);
     }
 
@@ -68,18 +57,6 @@ public class AdminController {
         // Проверка: если роли не выбраны, добавляется роль по умолчанию
         userService.add(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
-    }
-
-    @GetMapping("/edit")
-    public ResponseEntity<?> editUserForm(@RequestParam("id") int id) {
-        User user = userService.findById(id);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        Map<String, Object> response = new HashMap<>();
-        response.put("user", user);
-        response.put("allRoles", roleService.findAll());
-        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/edit")
