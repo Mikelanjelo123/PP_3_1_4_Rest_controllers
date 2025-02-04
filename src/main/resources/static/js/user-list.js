@@ -105,7 +105,7 @@ function openEditModal(userId) {
         document.getElementById('editFirstName').value = user.firstName;
         document.getElementById('editLastName').value = user.lastName;
         document.getElementById('editEmail').value = user.email;
-        document.getElementById('editRole').value = user.roles[0].name; // Предположим, что у пользователя только одна роль
+        document.getElementById('editRole').value = user.roles.name;
         const editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
     }
