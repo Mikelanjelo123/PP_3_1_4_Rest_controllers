@@ -121,9 +121,10 @@ async function addUser(userData) {
 // Редактируем пользователя
 async function editUser(userId, userData) {
     try {
-        const response = await fetch(`${BASE_URL}/edit?id=${userId}`, {
+        const response = await fetch(`${BASE_URL}/edit/${userId}`, {  // id передаем
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"},
             body: JSON.stringify(userData),
         });
         if (!response.ok) {
@@ -140,7 +141,7 @@ async function editUser(userId, userData) {
 // Удаляем пользователя
 async function deleteUser(userId) {
     try {
-        const response = await fetch(`${BASE_URL}/delete?id=${userId}`, {
+        const response = await fetch(`${BASE_URL}/delete/${userId}`, {
             method: "DELETE",
         });
         if (!response.ok) {

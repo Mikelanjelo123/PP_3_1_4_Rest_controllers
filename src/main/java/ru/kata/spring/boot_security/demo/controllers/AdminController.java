@@ -4,6 +4,7 @@ package ru.kata.spring.boot_security.demo.controllers;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,9 +59,8 @@ public class AdminController {
         userService.add(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
-
-    @PutMapping("/edit")
-    public ResponseEntity<?> editUser(@RequestParam("id") int id, @RequestBody @Valid User user, BindingResult result) {
+    @PutMapping(value = "/edit/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> editUser(@PathVariable int id, @RequestBody @Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
@@ -75,8 +75,8 @@ public class AdminController {
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestParam("id") int id) {
+    @DeleteMapping("/delete{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable int id) {
         userService.delete(id);
         return ResponseEntity.ok("Пользователь удалён.");
     }
