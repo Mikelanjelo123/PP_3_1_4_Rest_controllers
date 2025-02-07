@@ -4,7 +4,7 @@
 });
 
     function fetchUserData() {
-    fetch('/api/user')  // Замените на ваш актуальный API-эндпоинт
+    fetch('/api/user')
         .then(response => response.json())
         .then(data => {
             if (data.userDetails && data.userDetails.user) {
