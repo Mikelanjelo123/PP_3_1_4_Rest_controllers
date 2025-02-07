@@ -1,4 +1,3 @@
-// Базовый URL для ваших эндпоинтов
 const BASE_URL = "/api/admin";
 
 // Загружаем список пользователей
@@ -18,14 +17,14 @@ function renderUsers(users) {
     users.forEach(u => {
         const row = document.createElement("tr");
         row.innerHTML = `
-      <td>${u.id}</td>
-      <td>${u.firstName || ""}</td>
-      <td>${u.lastName || ""}</td>
-      <td>${u.email || ""}</td>
-      <td>${(u.roles || []).map(r => r.name).join(", ")}</td>
-      <td><button class="btn btn-warning btn-sm">Edit</button></td>
-      <td><button class="btn btn-danger btn-sm">Delete</button></td>
-    `;
+          <td>${u.id}</td>
+          <td>${u.firstName || ""}</td>
+          <td>${u.lastName || ""}</td>
+          <td>${u.email || ""}</td>
+          <td>${(u.roles || []).map(r => r.name).join(", ")}</td>
+          <td><button class="btn btn-warning btn-sm">Edit</button></td>
+          <td><button class="btn btn-danger btn-sm">Delete</button></td>
+        `;
         tableBody.appendChild(row);
 
         // Кнопка Edit
@@ -41,7 +40,6 @@ function openEditModal(user) {
     document.getElementById("editFirstName").value = user.firstName || "";
     document.getElementById("editLastName").value = user.lastName || "";
     document.getElementById("editEmail").value = user.email || "";
-    // Если нужно передавать пароль при редактировании:
     document.getElementById("editPassword").value = "";
     document.getElementById("editRole").value = (user.roles && user.roles[0]) ? user.roles[0].name : "ROLE_USER";
 
@@ -84,8 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
             firstName: document.getElementById("editFirstName").value,
             lastName: document.getElementById("editLastName").value,
             email: document.getElementById("editEmail").value,
-            // Если пароль не передаётся — передадим пустой. Сервис перезапишет.
-            // В реальном проекте можно сделать проверку, чтобы старый пароль не терялся.
             password: document.getElementById("editPassword").value,
             roles: [{ name: document.getElementById("editRole").value }]
         };
@@ -121,10 +117,9 @@ async function addUser(userData) {
 // Редактируем пользователя
 async function editUser(userId, userData) {
     try {
-        const response = await fetch(`${BASE_URL}/edit/${userId}`, {  // id передаем
+        const response = await fetch(`${BASE_URL}/edit/${userId}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData),
         });
         if (!response.ok) {

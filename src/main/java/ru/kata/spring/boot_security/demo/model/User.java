@@ -43,11 +43,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "User_id"),
             inverseJoinColumns = @JoinColumn(name = "Role_id"))
+    @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
 
     public User() {
