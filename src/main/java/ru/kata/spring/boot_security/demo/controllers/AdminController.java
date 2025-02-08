@@ -45,7 +45,7 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add" , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addUser(@RequestBody @Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
@@ -75,7 +75,7 @@ public class AdminController {
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("/delete{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable int id) {
         userService.delete(id);
         return ResponseEntity.ok("Пользователь удалён.");
