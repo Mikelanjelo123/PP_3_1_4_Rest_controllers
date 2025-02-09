@@ -40,8 +40,6 @@ public class InitUserToDB {
             rolesUser.add(userRole);
             User admin = new User("Admin", "Admin", "admin@exemple.ru", "admin", rolesAdmin);
             User user = new User("User", "User", "user@exemple.ru", "user", rolesUser);
-            roleService.add(adminRole);
-            roleService.add(userRole);
             userService.add(admin);
             userService.add(user);
 
