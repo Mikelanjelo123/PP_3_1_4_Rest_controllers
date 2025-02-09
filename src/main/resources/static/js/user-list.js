@@ -6,11 +6,29 @@ function fetchUsers() {
         .then(response => response.json())
         .then(data => {
             renderUsers(data.users);
+            fetchCurrentUser();  // Загружаем email текущего пользователя
         })
         .catch(error => console.error("Ошибка загрузки пользователей:", error));
 }
 
-// Рендерим таблицу
+// Функция для получения информации о текущем авторизованном пользователе
+function fetchCurrentUser() {
+    // Так как у нас одна конечная точка /api/admin, мы извлекаем email из данных пользователей
+    fetch(`${BASE_URL}`)
+        .then(response => response.json())
+        .then(data => {
+            const userEmailElement = document.getElementById("userEmail");
+            const currentUser = data.personDetails ? data.personDetails.user : null;
+            if (currentUser && currentUser.email) {
+                userEmailElement.innerText = currentUser.email;  // Обновляем email в элементе
+            } else {
+                userEmailElement.innerText = "Email не найден";  // Если email не найден
+            }
+        })
+        .catch(error => console.error("Ошибка при загрузке данных пользователя:", error));
+}
+
+// Рендерим таблицу пользователей
 function renderUsers(users) {
     const tableBody = document.getElementById("userTableBody");
     tableBody.innerHTML = "";
@@ -35,7 +53,6 @@ function renderUsers(users) {
         row.querySelector(".btn-danger").addEventListener("click", () => openDeleteModal(u));
     });
 }
-
 
 // Открываем модальное окно для редактирования
 function openEditModal(user) {
