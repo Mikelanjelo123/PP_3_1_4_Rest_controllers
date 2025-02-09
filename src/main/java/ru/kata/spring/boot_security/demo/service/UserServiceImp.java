@@ -45,7 +45,9 @@ public class UserServiceImp implements UserService {
             userToUpdate.setFirstName(user.getFirstName());
             userToUpdate.setLastName(user.getLastName());
             userToUpdate.setEmail(user.getEmail());
-            userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+            if (!user.getPassword().isEmpty()) {
+                userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
             userToUpdate.setRoles(user.getRoles());
             userRepository.save(userToUpdate);
         }

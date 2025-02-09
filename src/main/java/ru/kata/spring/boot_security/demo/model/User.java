@@ -39,7 +39,6 @@ public class User {
     private String email;
 
 
-    @NotEmpty(message = "Пароль не может быть пустым")
     @Column(name = "password")
     private String password;
 

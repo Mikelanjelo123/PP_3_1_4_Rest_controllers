@@ -43,7 +43,7 @@ function openEditModal(user) {
     document.getElementById("editFirstName").value = user.firstName || "";
     document.getElementById("editLastName").value = user.lastName || "";
     document.getElementById("editEmail").value = user.email || "";
-    document.getElementById("editPassword").value = user.password || "";
+    document.getElementById("editPassword").value = "" || "";
     document.getElementById("editRole").value = (user.roles && user.roles[0]) ? user.roles[0].name : "ROLE_USER";
 
     new bootstrap.Modal(document.getElementById("editModal")).show();

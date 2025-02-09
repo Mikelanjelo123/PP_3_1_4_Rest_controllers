@@ -24,6 +24,7 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Admin Panel</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
+                    <span id="userEmail">Loading...</span>
                     <a href="/logout" class="btn btn-outline-secondary">Logout</a>
                 </div>
             </div>
@@ -111,8 +112,11 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <!-- Храним ID скрыто -->
-                        <input type="hidden" id="editUserId">
                         <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="editUserId" class="form-label">ID</label>
+                                <input type="text" class="form-control" id="editUserId" disabled>
+                            </div>
                             <div class="mb-3">
                                 <label for="editFirstName" class="form-label">First Name</label>
                                 <input type="text" class="form-control" id="editFirstName" required>
@@ -155,8 +159,11 @@
                             <h5 class="modal-title" id="deleteModalLabel">Delete User</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <input type="hidden" id="deleteUserId">
                         <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="deleteUserId" class="form-label">ID</label>
+                                <input type="text" class="form-control" id="deleteUserId" disabled>
+                            </div>
                             <div class="mb-3">
                                 <label for="deleteFirstName" class="form-label">First Name</label>
                                 <input type="text" class="form-control" id="deleteFirstName" disabled>
