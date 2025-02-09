@@ -15,24 +15,27 @@ function renderUsers(users) {
     const tableBody = document.getElementById("userTableBody");
     tableBody.innerHTML = "";
     users.forEach(u => {
+        const userRole = u.roles && u.roles.length > 0
+            ? u.roles[0].name.replace('ROLE_', '')  // Убираем префикс ROLE_
+            : 'No Role';
+
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${u.id}</td>
           <td>${u.firstName || ""}</td>
           <td>${u.lastName || ""}</td>
           <td>${u.email || ""}</td>
-          <td>${(u.roles || []).map(r => r.name).join(", ")}</td>
+          <td>${userRole}</td>
           <td><button class="btn btn-warning btn-sm">Edit</button></td>
           <td><button class="btn btn-danger btn-sm">Delete</button></td>
         `;
         tableBody.appendChild(row);
 
-        // Кнопка Edit
         row.querySelector(".btn-warning").addEventListener("click", () => openEditModal(u));
-        // Кнопка Delete
         row.querySelector(".btn-danger").addEventListener("click", () => openDeleteModal(u));
     });
 }
+
 
 // Открываем модальное окно для редактирования
 function openEditModal(user) {
